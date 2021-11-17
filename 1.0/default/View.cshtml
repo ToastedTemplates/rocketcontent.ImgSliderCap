@@ -1,0 +1,46 @@
+﻿@inherits RocketContent.Components.RocketContentTokens<Simplisity.SimplisityRazor>
+@using DNNrocketAPI;
+@using Simplisity;
+@using RocketContent.Components;
+@using DNNrocketAPI.Components;
+
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocket/api/App_LocalResources/")
+@AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
+
+@{ 
+   var articleData = (ArticleLimpet)Model.List.First();
+   var sessionParams = (SessionParams)Model.SessionParamsData; 
+}
+
+<!------------------------------------------------------------------------------------------------------------------------------>
+
+<div class="w3-content w3-section" style="max-width:500px">
+
+    @foreach (var articleRowData in articleData.GetRows())
+    {
+        var imageList = articleRowData.GetImages();
+        foreach (var i in imageList)
+        {
+            <img class="mySlides" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, 300, 200)' style="width:100%;" />
+        }
+    }
+
+</div>
+
+<script>
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        myIndex++;
+        if (myIndex > x.length) { myIndex = 1 }
+        x[myIndex - 1].style.display = "block";
+        setTimeout(carousel, 2000); // Change image every 2 seconds
+    }
+</script>
+
