@@ -20,6 +20,7 @@
     var sessionParams = Model.SessionParamsData;
     var remoteModule = (RemoteModule)Model.GetDataObject("remotemodule");
     var portalData = new PortalLimpet(PortalUtils.GetCurrentPortalId());
+    var appTheme = new AppThemeLimpet(remoteModule.AppThemeFolder, remoteModule.AppThemeVersion);
 
 }
 
@@ -31,7 +32,7 @@
 <!-------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
 <div class='w3-row w3-padding '>
-    @RenderTemplate("ArticleImages.cshtml", appThemeSystem, Model, true)
+    @RenderTemplate("ArticleImages.cshtml", appTheme, Model, true)
     @RenderTemplate("ArticleImageSelect.cshtml", appThemeSystem, Model, true)
 </div>
 

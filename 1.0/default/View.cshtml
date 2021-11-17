@@ -8,39 +8,49 @@
 @AddProcessData("resourcepath", "/DesktopModules/DNNrocketModules/RocketContent/App_LocalResources/")
 
 @{ 
-   var articleData = (ArticleLimpet)Model.List.First();
-   var sessionParams = (SessionParams)Model.SessionParamsData; 
+ var articleData = (ArticleLimpet)Model.List.First();
+ var sessionParams = (SessionParams)Model.SessionParamsData; 
 }
 
 <!------------------------------------------------------------------------------------------------------------------------------>
 
-<div class="w3-content w3-section" style="max-width:500px">
+<div class="w3-content w3-display-container">
 
     @foreach (var articleRowData in articleData.GetRows())
     {
         var imageList = articleRowData.GetImages();
         foreach (var i in imageList)
         {
-            <img class="mySlides" src='@ThumbnailImageWebsiteDomainUrl(i.RelPath, 300, 200)' style="width:100%;" />
+            <div class="w3-display-container slidercap@(articleData.DataRef)">
+                <img src="@ThumbnailImageWebsiteDomainUrl(i.RelPath, 300, 200)" style="width:100%" />
+                <div class="@(i.Info.GetXmlProperty("genxml/select/displaypos")) w3-large w3-container w3-padding-16 w3-black">
+                    @i.Info.GetXmlProperty("genxml/lang/genxml/textbox/imagealt")
+                </div>
+            </div>                             
         }
     }
+    <div class="w3-button w3-display-left w3-black" onclick="plusDivs(-1)">&#10094;</div>
+    <div class="w3-button w3-display-right w3-black" onclick="plusDivs(1)">&#10095;</div>
 
 </div>
 
 <script>
-    var myIndex = 0;
-    carousel();
+    var slideIndex = 1;
+    showDivs(slideIndex);
 
-    function carousel() {
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
         var i;
-        var x = document.getElementsByClassName("mySlides");
+        var x = document.getElementsByClassName("slidercap@(articleData.DataRef)");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length }
         for (i = 0; i < x.length; i++) {
             x[i].style.display = "none";
         }
-        myIndex++;
-        if (myIndex > x.length) { myIndex = 1 }
-        x[myIndex - 1].style.display = "block";
-        setTimeout(carousel, 2000); // Change image every 2 seconds
+        x[slideIndex - 1].style.display = "block";
     }
 </script>
 
